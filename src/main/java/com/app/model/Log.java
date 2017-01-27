@@ -14,7 +14,7 @@ import javax.persistence.Version;
 
 /**
  *
- * @author U43723
+ * @author Manikandan
  */
 @Entity
 public class Log {

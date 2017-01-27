@@ -10,8 +10,16 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
- * @author U43723
+ * @author Manikandan
  */
 public interface JobRepository extends PagingAndSortingRepository<Job, Long>{
+    
+    /**
+     * This method get all job with specified by deleted value.
+     *
+     * @param deleted is job is soft deleted.
+     * @return the group list.
+     */
+    Iterable<Job> findAllByDeleted(boolean deleted);
     
 }

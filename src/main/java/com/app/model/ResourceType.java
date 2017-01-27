@@ -7,7 +7,7 @@ package com.app.model;
 
 /**
  *
- * @author U43723
+ * @author Manikandan
  */
 public enum ResourceType {
     

@@ -20,10 +20,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
- * @author U43723
+ * @author Manikandan
  */
 @Entity
-public class Job {
+public class Job extends AuditColumns {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -54,6 +54,8 @@ public class Job {
     private Boolean isRetryEnabled;
     
     private Long retryCounts;
+    
+    private boolean deleted = false;
     
     @OneToMany(mappedBy = "job")
     private List<Task> tasks;
@@ -159,6 +161,14 @@ public class Job {
     public void setRetryCounts(Long retryCounts) {
         this.retryCounts = retryCounts;
     }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }        
 
     public List<Task> getTasks() {
         return tasks;
