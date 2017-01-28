@@ -5,7 +5,6 @@
  */
 package com.app.service;
 
-import com.app.controller.JobController;
 import com.app.model.Job;
 import com.app.repository.JobRepository;
 import com.app.util.domain.PagingAndSorting;
@@ -24,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class JobServiceImpl implements JobService {
     
     /** Logger constant. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JobService.class);
     
      @Autowired
     private JobRepository jobRepository;
