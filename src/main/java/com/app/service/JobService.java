@@ -23,5 +23,5 @@ public interface JobService extends CRUDService<Job>{
      * @return the user list.
      */
     public Iterable<Job> findAllByDeleted(Boolean deleted);
-    
+
 }

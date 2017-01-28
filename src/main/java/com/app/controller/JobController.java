@@ -13,6 +13,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class JobController extends CRUDController<Job> implements ApiController 
     /** Logger constant. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JobController.class);
     
+    @Autowired
     private JobService jobService;
         
     /**
@@ -44,7 +46,7 @@ public class JobController extends CRUDController<Job> implements ApiController 
      * @return the job list.
      * @throws Exception default exception.
      */
-    @RequestMapping(value = "", method = RequestMethod.GET,
+    @RequestMapping(value = "/list", method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Job> list(@RequestParam(value = "deleted", required = false) Boolean deleted) throws Exception {
@@ -71,7 +73,7 @@ public class JobController extends CRUDController<Job> implements ApiController 
     @Override
     public Job create(@RequestBody Job job) throws Exception {
         return jobService.create(job);
-    }
+    }        
     
     /**
      * This method is used to update job.
@@ -99,22 +101,7 @@ public class JobController extends CRUDController<Job> implements ApiController 
              throw new Exception("Job doesn't exist");
          }
          return jobService.update(dbJob);
-     }
-    
-    /**
-     * This method is used to return the job by ID.
-     *
-     * @param id the job ID.
-     * @return the job.
-     * @throws Exception default exception.
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
-            produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public Job getJob(@PathVariable(PATH_ID) Long id) throws Exception {
-        return jobService.find(id);
-    }
+     }   
     
     /**
      * This method is used to delete the job(Soft).
@@ -133,5 +120,21 @@ public class JobController extends CRUDController<Job> implements ApiController 
         job.setDeletedDateTime(new Date());
         jobService.update(job);
     }
+
+    /**
+     * This method is used to return the job by ID.
+     *
+     * @param id the job ID.
+     * @return the job.
+     * @throws Exception default exception.
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @Override
+    public Job read(@PathVariable(PATH_ID) Long id) throws Exception {
+        return jobService.find(id);
+    }        
     
 }

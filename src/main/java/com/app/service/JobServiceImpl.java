@@ -5,10 +5,13 @@
  */
 package com.app.service;
 
+import com.app.controller.JobController;
 import com.app.model.Job;
 import com.app.repository.JobRepository;
 import com.app.util.domain.PagingAndSorting;
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class JobServiceImpl implements JobService {
+    
+    /** Logger constant. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(JobController.class);
     
      @Autowired
     private JobRepository jobRepository;
@@ -64,5 +70,5 @@ public class JobServiceImpl implements JobService {
     public void delete(Long id) throws Exception {
         jobRepository.delete(id);
     }
-    
+
 }
