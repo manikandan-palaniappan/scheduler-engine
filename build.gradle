@@ -23,14 +23,23 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+        mavenLocal()
 }
 
 
 dependencies {
         compile "com.h2database:h2:1.4.192" //In memory database
 //        compile('org.springframework.boot:spring-boot-starter-data-cassandra')
-        compile "mysql:mysql-connector-java:5.1.32" //MySql connector
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+        compile "com.api:dkron-sdk:0.9.0"
+        compile "mysql:mysql-connector-java:5.1.32" //MySql connector	
+        compile('org.springframework.boot:spring-boot-starter-data-jpa')	
+        compile('org.springframework.boot:spring-boot-starter-web')	
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+task listJars {
+    doLast {
+        configurations.compile.each { File file -> println file.name }
+    }
 }

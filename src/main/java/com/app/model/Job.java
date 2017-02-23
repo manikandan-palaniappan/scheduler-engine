@@ -28,10 +28,28 @@ public class Job extends AuditColumns {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-    
-    private String jobName;
+        
+    private String name;
     
     private String serviceOwner;
+    
+    private String referenceId;
+    
+    private String schedule;   
+    
+    private String command;
+    
+    private Boolean disabled;
+    
+    private Integer errorCount;
+    
+    private Date lastError;
+    
+    private Date lastSuccess;
+    
+    private Integer successCount;
+    
+    private Boolean shell;
     
     private JobStatus jobStatus;
     
@@ -74,13 +92,13 @@ public class Job extends AuditColumns {
         this.id = id;
     }
 
-    public String getJobName() {
-        return jobName;
+    public String getName() {
+        return name;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
-    }
+    public void setName(String name) {
+        this.name = name;
+    }   
 
     public String getServiceOwner() {
         return serviceOwner;
@@ -185,5 +203,79 @@ public class Job extends AuditColumns {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
+    public String getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public Integer getErrorCount() {
+        return errorCount;
+    }
+
+    public void setErrorCount(Integer errorCount) {
+        this.errorCount = errorCount;
+    }
+
+    public Date getLastError() {
+        return lastError;
+    }
+
+    public void setLastError(Date lastError) {
+        this.lastError = lastError;
+    }
+
+    public Date getLastSuccess() {
+        return lastSuccess;
+    }
+
+    public void setLastSuccess(Date lastSuccess) {
+        this.lastSuccess = lastSuccess;
+    }
+
+    public Integer getSuccessCount() {
+        return successCount;
+    }
+
+    public void setSuccessCount(Integer successCount) {
+        this.successCount = successCount;
+    }
+
+    public Boolean getShell() {
+        return shell;
+    }
+
+    public void setShell(Boolean shell) {
+        this.shell = shell;
+    }
+    
+    
     
 }

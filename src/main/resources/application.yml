@@ -9,7 +9,7 @@ spring.jpa:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         show_sql: true
         format_sql: true
-        ddl-auto: create-drop 
+        ddl-auto: update
 spring.datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/scheduler
@@ -33,3 +33,8 @@ spring.jpa:
 flyway.enabled : false
 #flyway.schemas : PUBLIC
 ---
+
+# Dkron configurations
+dkron:
+    server:
+     baseUri: http://localhost:8080/v1

@@ -22,4 +22,22 @@ public interface JobRepository extends PagingAndSortingRepository<Job, Long>{
      */
     Iterable<Job> findAllByDeleted(boolean deleted);
     
+    /**
+     * This method get job with specified id and by deleted value.
+     *
+     * @param id
+     * @param deleted is job is soft deleted.
+     * @return the job.
+     */
+    Job findByIdAndDeleted(Long id, boolean deleted);
+    
+    /**
+     * This method get job with specified name and by deleted value.
+     * 
+     * @param name
+     * @param deleted
+     * @return 
+     */
+    Job findByNameAndDeleted(String name, boolean deleted);
+    
 }

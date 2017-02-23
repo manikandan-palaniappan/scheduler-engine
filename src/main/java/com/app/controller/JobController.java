@@ -114,11 +114,8 @@ public class JobController extends CRUDController<Job> implements ApiController 
     public void delete(@PathVariable(PATH_ID) Long id) throws Exception {
 
         //Get existing job
-        Job job = jobService.find(id);
-        //Soft delete the job
-        job.setDeleted(true);
-        job.setDeletedDateTime(new Date());
-        jobService.update(job);
+        Job job = jobService.find(id);                
+        jobService.delete(job);
     }
 
     /**
