@@ -31,11 +31,10 @@ public class AppValidator {
 
     /** Message source attribute. */
     @Autowired
-    private MessageSource messageSource;
-
-    /** Beanfactory attribute. */
+    private MessageSource messageSource;   
+    
     @Autowired
-    private BeanFactory beanFactory;
+    private Errors errors;
 
     /**
      * Validates the given entity.
@@ -76,8 +75,7 @@ public class AppValidator {
 
         errors.setFieldErrors(errorsMap);
 
-        if (errors.hasErrors()) {
-            System.out.println("Has Error so throwing " + errors);
+        if (errors.hasErrors()) {            
             throw new ApplicationException(errors);
         }
         return errors;
@@ -91,13 +89,10 @@ public class AppValidator {
      * @return new error object is returned
      * @throws Exception if object is null
      */
-    public Errors rejectIfNullEntity(String name, Object entity) throws Exception {
-//        Errors errors = beanFactory.createError();
-        Errors errors = new ErrorsImpl();
-
+    public Errors rejectIfNullEntity(String name, Object entity) throws Exception {        
+        
         System.out.println("Entry Field Error : " + errors.getFieldErrors());
-        System.out.println("Entry Global Error  : " + errors.getGlobalError());
-        System.out.println("Message Source  : " + messageSource);
+        System.out.println("Entry Global Error  : " + errors.getGlobalError());        
 
         Boolean hasValues = false;
 

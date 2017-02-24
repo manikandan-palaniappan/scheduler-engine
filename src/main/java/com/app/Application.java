@@ -1,5 +1,7 @@
 package com.app;
 
+import com.app.util.error.Errors;
+import com.app.util.error.ErrorsImpl;
 import javax.validation.Validator;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,12 @@ public class Application {
         localValidatorFactoryBean.setValidationMessageSource(messageSource());
         return localValidatorFactoryBean;
     }
+    
+    @Bean
+    public Errors errors() {
+        Errors errors = new ErrorsImpl();
+        return errors;
+    }
 
     public Validator getValidator() {  //（※２）
         return validator();
@@ -41,5 +49,9 @@ public class Application {
     
     public MessageSource getMessageSource() {
         return messageSource();
+    }
+    
+    public Errors getErrors() {
+        return errors();
     }
 }

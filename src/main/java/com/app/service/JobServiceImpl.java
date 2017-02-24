@@ -45,7 +45,7 @@ public class JobServiceImpl implements JobService {
     
     @Autowired
     AppValidator validator;
-
+    
     @Override
     public Job create(Job job) throws Exception {
         
@@ -152,7 +152,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job find(Long id) throws Exception {
+    public Job find(Long id) throws Exception {        
         return jobRepository.findByIdAndDeleted(id, false);
     }
 

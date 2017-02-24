@@ -58,9 +58,8 @@ public class ErrorsImpl implements Errors {
 
     @Override
     public void addFieldError(String field, String errorMessage) {
-        try {
-            System.err.println("Message source " +messageSource);
-//            errorMessage = messageSource.getMessage(errorMessage, new Object[] {}, LocaleContextHolder.getLocale());            
+        try {            
+            errorMessage = messageSource.getMessage(errorMessage, new Object[] {}, LocaleContextHolder.getLocale());            
         } catch (NoSuchMessageException ex) {
             //Do nothing, the i18n key will be returned
             ex.printStackTrace();
