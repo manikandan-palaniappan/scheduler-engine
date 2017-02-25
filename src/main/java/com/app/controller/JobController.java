@@ -89,18 +89,8 @@ public class JobController extends CRUDController<Job> implements ApiController 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     @Override
-     public Job update(@RequestBody Job job, @PathVariable(PATH_ID) Long id) throws  Exception {
-         LOGGER.info("Job update");
-         Job dbJob = jobService.find(id);
-
-         if (dbJob != null) {
-             //Update new values to existing job
-             BeanUtils.copyProperties(job, dbJob, "id");
-             dbJob.setLastModifiedDateTime(new Date());
-         } else {
-             throw new Exception("Job doesn't exist");
-         }
-         return jobService.update(dbJob);
+     public Job update(@RequestBody Job job, @PathVariable(PATH_ID) Long id) throws  Exception {         
+         return jobService.update(job);
      }   
     
     /**

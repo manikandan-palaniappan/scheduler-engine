@@ -32,7 +32,7 @@ public class ErrorsImpl implements Errors {
     @Override
     public List<String> getGlobalError() {
 
-        System.out.println("Get global Error object : " + this.globalError);
+        System.out.println("Global Error : " + this.globalError);
         return globalError;
     }
 
@@ -52,7 +52,7 @@ public class ErrorsImpl implements Errors {
 
     @Override
     public HashMap<String, String> getFieldErrors() {
-        System.out.println("Get field Error object : " + this.fieldErrors);
+        System.out.println("Field Errors : " + this.fieldErrors);
         return fieldErrors;
     }
 

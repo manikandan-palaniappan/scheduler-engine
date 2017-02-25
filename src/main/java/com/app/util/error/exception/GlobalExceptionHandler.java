@@ -6,7 +6,6 @@
 package com.app.util.error.exception;
 
 import com.app.util.error.Errors;
-import com.app.util.error.exception.ApplicationException;  
 import org.springframework.http.HttpStatus;  
 import org.springframework.web.bind.annotation.ControllerAdvice;  
 import org.springframework.web.bind.annotation.ExceptionHandler;  

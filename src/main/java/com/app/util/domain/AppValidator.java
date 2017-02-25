@@ -1,6 +1,5 @@
 package com.app.util.domain;
 
-import com.app.util.error.ErrorsImpl;
 import com.app.util.error.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -16,7 +15,7 @@ import javax.validation.Validator;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Set;
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Application validator to handle validations.
@@ -31,10 +30,11 @@ public class AppValidator {
 
     /** Message source attribute. */
     @Autowired
-    private MessageSource messageSource;   
+    private MessageSource messageSource;    
     
+    /** Application context attribute. */
     @Autowired
-    private Errors errors;
+    private ApplicationContext context;
 
     /**
      * Validates the given entity.
@@ -47,10 +47,9 @@ public class AppValidator {
 
         Set<ConstraintViolation<Object>> constraintViolationErrors =  validator.validate(object);
 
-        HashMap<String, String> errorsMap = convertValidationMessages(constraintViolationErrors);
+        HashMap<String, String> errorsMap = convertValidationMessages(constraintViolationErrors);       
 
-        Errors errors = new ErrorsImpl();
-
+        Errors errors = this.createErrors();
         errors.setFieldErrors(errorsMap);
 
         if (errors.hasErrors()) {
@@ -91,8 +90,7 @@ public class AppValidator {
      */
     public Errors rejectIfNullEntity(String name, Object entity) throws Exception {        
         
-        System.out.println("Entry Field Error : " + errors.getFieldErrors());
-        System.out.println("Entry Global Error  : " + errors.getGlobalError());        
+        Errors errors = this.createErrors();                    
 
         Boolean hasValues = false;
 
@@ -150,7 +148,6 @@ public class AppValidator {
      * @return Errors entity
      */
     public Errors createErrors() {
-        Errors errors = new ErrorsImpl();
-        return errors;
+        return (Errors) context.getBean("errors");
     }
 }

@@ -5,6 +5,7 @@
  */
 package com.app.service;
 
+import com.api.dkron.exceptions.APIException;
 import com.app.model.Job;
 import com.app.repository.JobRepository;
 import com.app.util.domain.PagingAndSorting;
@@ -49,19 +50,25 @@ public class JobServiceImpl implements JobService {
     @Override
     public Job create(Job job) throws Exception {
         
-        Errors errors = validator.rejectIfNullEntity("Job", job);
+        Errors errors = validator.rejectIfNullEntity("Job", job);                
 
-        //Validate Job entity
-        //Todo : Need to throw errors properly
+        //Validate Job entity        
         errors = validator.validateEntity(job, errors);
         
         Job dbJob = jobRepository.findByNameAndDeleted(job.getName(), false);
         if(dbJob != null) {
             errors.addFieldError("name", "common.job.name.unique");
+        }  
+        
+        if(job.getSchedule() == null || job.getSchedule().equals("")) {
+            errors.addFieldError("schedule", "common.job.schedule.mandatory");
         }
         
-        if (errors.hasErrors()) {
-            LOGGER.info("Errors ========>" +  errors.getFieldErrors());
+        if(job.getCommand() == null || job.getCommand().equals("")) {
+            errors.addFieldError("command", "common.job.command.mandatory");
+        }
+        
+        if (errors.hasErrors()) {            
             throw new ApplicationException(errors);
             
         } else {
@@ -70,50 +77,53 @@ public class JobServiceImpl implements JobService {
                             
                 dkronJob = new com.api.dkron.models.Job();
 
-                BeanUtils.copyProperties(job, dkronJob);
-
-                LOGGER.info("DkronBaseUri "+dkronBaseUri);
-                LOGGER.info("Name "+dkronJob.getName());
-                LOGGER.info("Command "+dkronJob.getCommand());
-                LOGGER.info("Schedule "+dkronJob.getSchedule());
-                LOGGER.info("Disabled "+dkronJob.getDisabled());
+                BeanUtils.copyProperties(job, dkronJob);               
 
                 dkronJob = dkronJobResource.createOrUpdateJob(dkronJob, dkronBaseUri);
 
                 if(dkronJob != null) {
-
-                   LOGGER.info(" Job created in dkron server successfully");
+                   
                    job.setCreatedDateTime(new Date());
                    job = jobRepository.save(job);
-                   LOGGER.info(" Job created in scheduler engine successfully");               
-                }  
+                   LOGGER.info(" Job created Successfully");               
+                }                 
 
-               return job;
-
+            } catch(APIException ex) {                                
+                
+                errors.addGlobalError(ex.getLocalizedMessage());
+                throw new ApplicationException(errors);                                                
+                
             } catch (Throwable ex) {
-
-                java.util.logging.Logger.getLogger(JobServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                return null;            
+                java.util.logging.Logger.getLogger(JobServiceImpl.class.getName()).log(Level.SEVERE, null, ex);                          
 
             }
+            
+            return job;
         }                                        
     }
 
     @Override
-    public Job update(Job job) throws Exception {
+    public Job update(Job job) throws Exception {                        
         
         Errors errors = validator.rejectIfNullEntity("Job", job);
 
         //Validate Job entity
         errors = validator.validateEntity(job, errors);
         
-        Job dbJob = jobRepository.findByIdAndDeleted(job.getId(), false);
+        if(job.getSchedule() == null || job.getSchedule().equals("")) {
+            errors.addFieldError("schedule", "common.job.schedule.mandatory");
+        }
+        
+        if(job.getCommand() == null || job.getCommand().equals("")) {
+            errors.addFieldError("command", "common.job.command.mandatory");
+        }
+        
+        Job dbJob = jobRepository.findByIdAndDeleted(job.getId(), false);        
         if(!dbJob.getName().equals(job.getName())) {
             errors.addFieldError("name", "Job name cannot be changed");
         }
         
-        if (errors.hasErrors()) {
-            LOGGER.info("Errors ========>" +  errors.getFieldErrors());
+        if (errors.hasErrors()) {            
             throw new ApplicationException(errors);
 
         } else {                    
@@ -122,32 +132,28 @@ public class JobServiceImpl implements JobService {
 
                 dkronJob = new com.api.dkron.models.Job();
 
-                BeanUtils.copyProperties(job, dkronJob);
-
-                LOGGER.info("DkronBaseUri "+dkronBaseUri);
-                LOGGER.info("Name "+dkronJob.getName());
-                LOGGER.info("Command "+dkronJob.getCommand());
-                LOGGER.info("Schedule "+dkronJob.getSchedule());
-                LOGGER.info("Disabled "+dkronJob.getDisabled());
+                BeanUtils.copyProperties(job, dkronJob);               
 
                 dkronJob = dkronJobResource.createOrUpdateJob(dkronJob, dkronBaseUri);
 
                 if(dkronJob != null) {
 
-                   LOGGER.info(" Job updated in dkron server successfully");
                    job.setLastModifiedDateTime(new Date());
                    job = jobRepository.save(job);
-                   LOGGER.info(" Job updated in scheduler engine successfully");               
+                   LOGGER.info(" Job updated Successfully");               
                 }  
 
-               return job;
-
+            } catch(APIException ex) {                                
+                
+                errors.addGlobalError(ex.getLocalizedMessage());
+                throw new ApplicationException(errors);                                                
+                
             } catch (Throwable ex) {
+                java.util.logging.Logger.getLogger(JobServiceImpl.class.getName()).log(Level.SEVERE, null, ex);                          
 
-                java.util.logging.Logger.getLogger(JobServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                return null;            
-
-            }  
+            }
+            
+            return job;
         }    
     }
 
@@ -174,20 +180,22 @@ public class JobServiceImpl implements JobService {
     @Override
     public void delete(Job job) throws Exception {
         
-        if (job == null) {
-            throw new Exception("Job cannot be deleted");
-        }
+        Errors errors = validator.rejectIfNullEntity("Job", job);
         
         try {
                 
-                dkronJobResource.deleteJob(job.getName(), dkronBaseUri);
-                LOGGER.info(job.getName() + " Job deleted in dkron server successfully");
+                dkronJobResource.deleteJob(job.getName(), dkronBaseUri);                
                 
                 //soft delete job
                 job.setDeleted(true);
                 job.setDeletedDateTime(new Date());
                 jobRepository.save(job);                
-                LOGGER.info(job.getName() + " Job soft deleted in scheduler engine successfully");
+                LOGGER.info(job.getName() + " Job soft deleted Successfully");
+                
+            } catch(APIException ex) {                                
+                
+                errors.addGlobalError(ex.getLocalizedMessage());
+                throw new ApplicationException(errors);                                                
                 
             } catch (Throwable ex) {
                 
@@ -204,17 +212,23 @@ public class JobServiceImpl implements JobService {
         }
         
         Job dbJob = jobRepository.findOne(id);
+        
+        Errors errors = validator.rejectIfNullEntity("Job", dbJob);
             
         try {
 
-            dkronJobResource.deleteJob(dbJob.getName(), dkronBaseUri);
-            LOGGER.info(dbJob.getName() + " Job deleted in dkron server successfully");
+            dkronJobResource.deleteJob(dbJob.getName(), dkronBaseUri);            
 
             //soft delete job
             dbJob.setDeleted(true);
             dbJob.setDeletedDateTime(new Date());
             jobRepository.save(dbJob);                
-            LOGGER.info(dbJob.getName() + " Job soft deleted in scheduler engine successfully");
+            LOGGER.info(dbJob.getName() + " Job soft deleted Successfully");
+
+        } catch(APIException ex) {                                
+                
+            errors.addGlobalError(ex.getLocalizedMessage());
+            throw new ApplicationException(errors);                                                
 
         } catch (Throwable ex) {
 
