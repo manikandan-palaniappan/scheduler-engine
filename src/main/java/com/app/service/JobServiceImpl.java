@@ -130,16 +130,18 @@ public class JobServiceImpl implements JobService {
         
             try {
 
+                BeanUtils.copyProperties(job, dbJob, "id");
+                
                 dkronJob = new com.api.dkron.models.Job();
 
-                BeanUtils.copyProperties(job, dkronJob);               
+                BeanUtils.copyProperties(dbJob, dkronJob);               
 
                 dkronJob = dkronJobResource.createOrUpdateJob(dkronJob, dkronBaseUri);
 
                 if(dkronJob != null) {
 
-                   job.setLastModifiedDateTime(new Date());
-                   job = jobRepository.save(job);
+                   dbJob.setLastModifiedDateTime(new Date());
+                   dbJob = jobRepository.save(dbJob);
                    LOGGER.info(" Job updated Successfully");               
                 }  
 
@@ -153,7 +155,7 @@ public class JobServiceImpl implements JobService {
 
             }
             
-            return job;
+            return dbJob;
         }    
     }
 
