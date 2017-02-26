@@ -13,6 +13,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 apply plugin: 'docker'
@@ -20,15 +21,31 @@ apply plugin: 'application'
 
 // Docker
 docker {
-    baseImage = 'appranix/java-base:1.8.0_77-alpine'
+    baseImage = 'registry.appranix.net/library/java-base:1.8.0_77-alpine'
+    registry = 'registry.appranix.net'
+}
+
+distDocker {
+
+    setEnvironment "DB_HOST", "localhost"
+    setEnvironment "DB_PORT", "5432"
+    setEnvironment "DB_NAME", "scheduler"
+    setEnvironment "DB_USER", "postgres"
+    setEnvironment "DB_PASS", ""
+    setEnvironment "DKRON_HOST", "localhost"
+    setEnvironment "DKRON_PORT", "8080"
+    
+    exposePort 6000
+
 }
 
 jar {
 	baseName = 'scheduler'
-	version = '0.0.1-SNAPSHOT'
+	version = '0.1.0'
 }
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -37,13 +54,17 @@ repositories {
 
 
 dependencies {
-        compile "com.h2database:h2:1.4.192" //In memory database
-//        compile('org.springframework.boot:spring-boot-starter-data-cassandra')
 
         compile "com.api:dkron-sdk:0.9.0"
-        compile "mysql:mysql-connector-java:5.1.32" //MySql connector	
+        
+//        compile "com.h2database:h2:1.4.192" //In memory database
+//        compile "mysql:mysql-connector-java:5.1.32" //MySql connector	
+//        compile('org.springframework.boot:spring-boot-starter-data-cassandra')       
+        compile "org.postgresql:postgresql:9.4-1204-jdbc42"
+                
         compile('org.springframework.boot:spring-boot-starter-data-jpa')	
-        compile('org.springframework.boot:spring-boot-starter-web')	
+        compile('org.springframework.boot:spring-boot-starter-web')
+            
         testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
