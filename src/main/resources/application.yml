@@ -1,8 +1,4 @@
 spring:
-  application:
-    name: scheduler
----
-spring:
   profiles.active: default
 ---
 spring:
@@ -32,5 +28,12 @@ dkron:
      baseUri: http://${DKRON_HOST:localhost}:${DKRON_PORT:8080}/v1
      
 server:
-    port: "${SERVER_PORT:8090}"
-     
+    port: "${SERVER_PORT:6838}"
+    
+management:
+  port: ${SCHEDULER_ACTUATOR_PORT:7038}
+  security:
+    enabled: false
+endpoints:
+  health:
+    sensitive: false     

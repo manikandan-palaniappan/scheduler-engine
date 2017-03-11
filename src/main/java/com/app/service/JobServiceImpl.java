@@ -213,7 +213,7 @@ public class JobServiceImpl implements JobService {
             throw new Exception("Job cannot be deleted");
         }
         
-        Job dbJob = jobRepository.findOne(id);
+        Job dbJob = jobRepository.findByIdAndDeleted(id, false);
         
         Errors errors = validator.rejectIfNullEntity("Job", dbJob);
             
