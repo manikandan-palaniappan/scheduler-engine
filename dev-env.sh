@@ -4,7 +4,7 @@ export SCHEDULER_DB_HOST=localhost
 export SCHEDULER_DB_PORT=5432
 export SCHEDULER_DB_NAME=scheduler
 export SCHEDULER_DB_USER=postgres
-export SCHEDULER_DB_PASS="dbpassword"
+export SCHEDULER_DB_PASS=dbpassword
 export SCHEDULER_ACTUATOR_PORT=7038
 
 export SERVER_PORT=6838
