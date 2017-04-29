@@ -37,7 +37,7 @@ distDocker {
     setEnvironment "SCHEDULER_DB_PORT", "5432"
     setEnvironment "SCHEDULER_DB_NAME", "scheduler"
     setEnvironment "SCHEDULER_DB_USER", "postgres"
-    setEnvironment "SCHEDULER_DB_PASS", ""
+    setEnvironment "SCHEDULER_DB_PASSWORD", "dbpassword"
     setEnvironment "SCHEDULER_ACTUATOR_PORT", "7038"
     setEnvironment "DKRON_HOST", "localhost"
     setEnvironment "DKRON_PORT", "8080"

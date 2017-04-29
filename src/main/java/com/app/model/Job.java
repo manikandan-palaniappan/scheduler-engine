@@ -31,7 +31,9 @@ public class Job extends AuditColumns {
         
     private String name;
     
-    private String serviceOwner;
+    private String owner;
+    
+    private String ownerEmail;
     
     private String referenceId;
     
@@ -100,13 +102,21 @@ public class Job extends AuditColumns {
         this.name = name;
     }   
 
-    public String getServiceOwner() {
-        return serviceOwner;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setServiceOwner(String serviceOwner) {
-        this.serviceOwner = serviceOwner;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+    }        
 
     public JobStatus getJobStatus() {
         return jobStatus;
