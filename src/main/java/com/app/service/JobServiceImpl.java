@@ -84,6 +84,7 @@ public class JobServiceImpl implements JobService {
                 if(dkronJob != null) {
                    
                    job.setCreatedDateTime(new Date());
+                   job.setName(dkronJob.getName());
                    job = jobRepository.save(job);
                    LOGGER.info(" Job created Successfully");               
                 }                 
@@ -120,7 +121,7 @@ public class JobServiceImpl implements JobService {
         
         Job dbJob = jobRepository.findByIdAndDeleted(job.getId(), false);        
         if(!dbJob.getName().equals(job.getName())) {
-            errors.addFieldError("name", "Job name cannot be changed");
+            errors.addFieldError("name", "common.job.name.cannot.be.changed");
         }
         
         if (errors.hasErrors()) {            
@@ -141,6 +142,7 @@ public class JobServiceImpl implements JobService {
                 if(dkronJob != null) {
 
                    dbJob.setLastModifiedDateTime(new Date());
+                   job.setName(dkronJob.getName());
                    dbJob = jobRepository.save(dbJob);
                    LOGGER.info(" Job updated Successfully");               
                 }  
