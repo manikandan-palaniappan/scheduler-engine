@@ -64,6 +64,8 @@ dependencies {
 
         compile "com.api:dkron-sdk:0.9.0"
         
+        compile "org.flywaydb:flyway-core:3.0"
+        
 //        compile "com.h2database:h2:1.4.192" //In memory database
 //        compile "mysql:mysql-connector-java:5.1.32" //MySql connector	
 //        compile('org.springframework.boot:spring-boot-starter-data-cassandra')       

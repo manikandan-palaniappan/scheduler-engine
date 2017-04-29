@@ -1,0 +1,28 @@
+CREATE TABLE job
+(
+  id bigint NOT NULL,
+  command character varying(255),
+  deleted boolean NOT NULL,
+  description character varying(255),
+  disabled boolean,
+  docker_image character varying(255),
+  end_time timestamp without time zone,
+  error_count integer,
+  is_retry_enabled boolean,
+  job_status integer,
+  last_error timestamp without time zone,
+  last_success timestamp without time zone,
+  location character varying(255),
+  name character varying(255),
+  owner character varying(255),
+  owner_email character varying(255),
+  reference_id character varying(255),
+  retry_counts bigint,
+  schedule character varying(255),
+  scheduler_type integer,
+  shell boolean,
+  start_time timestamp without time zone,
+  success_count integer,
+  version integer,
+  CONSTRAINT job_pkey PRIMARY KEY (id)
+)
