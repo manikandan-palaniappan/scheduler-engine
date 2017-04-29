@@ -83,7 +83,7 @@ public class JobController extends CRUDController<Job> implements ApiController 
      * @return success/failure of the update.
      * @throws Exception default exception.
      */
-    @RequestMapping (value = "/{id}", method = RequestMethod.PATCH,
+    @RequestMapping (value = "/{id}", method = RequestMethod.PUT,
             produces = { MediaType.APPLICATION_JSON_VALUE },
             consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.ACCEPTED)
